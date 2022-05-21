@@ -1,0 +1,6 @@
+# Everything the developer needs in addition to the production requirements
+-r prod.txt
+Django==3.2.13
+black == 22.3.0
+mypy == 0.782
+psycopg2 == 2.8.4
