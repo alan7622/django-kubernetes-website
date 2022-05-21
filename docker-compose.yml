@@ -1,0 +1,43 @@
+version: '3.7'
+x-service-volumes: &service-volumes
+  - ./:/app/:rw,cached
+
+x-database-variables: &database-variables
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+x-app-variables: &app-variables
+  <<: *database-variables
+  POSTGRES_HOST: postgres
+
+services:
+  website:
+    image: alan-website:latest
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes: *service-volumes 
+    environment: *app-variables
+    depends_on:
+      - db_migrate
+    ports:
+      - "8000:8000"
+
+  db_migrate:
+    image: alan-website:latest
+    command: python manage.py migrate
+    volumes: *service-volumes 
+    environment: *app-variables
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment: *database-variables
+    volumes:
+      - db-data:/var/lib/postgresql/data # docker creates volume to save db, the volume is persistent accross docker-compose session
+                                         # but need to give name ex:db-data, or will assign to random id
+                                         # db-data will map to directory inside postgres, the data in postgres save in /var/lib/postgresql/data directory
+volumes:
+  db-data:
+  
