@@ -1,0 +1,26 @@
+# build docker image
+docker build -t alan-website .
+
+# check docker images
+docker images
+
+# docker rmi Image
+docker rmi
+
+# docker ps 
+list containers exist
+
+# docker ps -a
+list containers
+
+# docker rm ID_or_Name 
+delete docker container
+
+# docker system prune
+clean up any resources — images, containers, volumes, and networks:
+
+# docker system prune -a
+remove any stopped containers and all unused images (not just dangling images)
+
+# docker volume ls
+see docker volume 
